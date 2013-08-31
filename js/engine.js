@@ -64,8 +64,8 @@ Game.prototype.shuffle_cards = function() {
 Game.prototype.share_cards = function(player_count) {
     this.shuffle_cards();
     // console.log("stard share cards...");
-    var players_cards = [];
-    var cards_to_each = Math.floor(this.cards.length/player_count);
+    var players_cards = [],
+        cards_to_each = Math.floor(this.cards.length/player_count);
     for (var i=0; player_count > i; i++) {
         cards_to_add = this.cards.splice(0, cards_to_each);
         players_cards.push(cards_to_add);
@@ -92,10 +92,10 @@ Game.prototype.check_player = function(player) {
 Game.prototype.make_step = function(old_cache, on_dispute) {
     console.log("run step...")
     old_cache = old_cache || [];
-    var dispute = [];
-    var cards_cache = [];
-    var step_winners = [];
-    var card_winner = null;
+    var dispute = [],
+        cards_cache = [],
+        step_winners = [],
+        card_winner = null;
     if (this.game_winner) {
         return {
             "result": "win",
