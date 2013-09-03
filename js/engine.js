@@ -18,14 +18,11 @@ Deck.prototype.get_card = function() {
     return this.cards.pop();
 };
 Deck.prototype.add_cards = function(cards_to_add) {
-    // console.log(">>>>>", cards_to_add, this.cards.length);
     var cards = this.cards;
     cards_to_add.reverse().forEach(function(element, index) {
-        // console.log(element);
         cards.unshift(element);
     });
     this.cards = cards;
-    // console.log(">>>>>", this.cards.length);
 };
 
 // Player class
@@ -33,7 +30,6 @@ function Player(name, deck_of_cards, color) {
     this.deck = new Deck(deck_of_cards);
     this.uid = name;
     this.color = color;
-    // console.log("player "+this.uid+" created"+" cards: "+this.deck.cards);
 }
 Player.prototype.toString = function() {
     return this.uid;
@@ -41,11 +37,10 @@ Player.prototype.toString = function() {
 
 // Game class
 function Game(cards, players_names, colors) {
-    // console.log("start game...");
     this.players = [];
     this.cards = cards;
     this.game_winner = null;
-    players_names = players_names || ["suika", "anon"];
+    players_names = players_names || ["player-0", "player-1"];
     var shared_cards = this.share_cards(players_names.length);
     for (var i=0; i < players_names.length; i++) {
         var player = new Player(players_names[i], shared_cards[i], colors[i]);
@@ -53,17 +48,15 @@ function Game(cards, players_names, colors) {
     }
 }
 Game.prototype.shuffle_cards = function() {
-    // console.log("shuffle cards...");
     for (var index = 0; index < this.cards.length; index++) {
-        var random_index = Math.floor(Math.random() * index);
-        var card_temp = this.cards[index];
+        var random_index = Math.floor(Math.random() * index),
+            card_temp = this.cards[index];
         this.cards[index] = this.cards[random_index];
         this.cards[random_index] = card_temp;
     }
 };
 Game.prototype.share_cards = function(player_count) {
     this.shuffle_cards();
-    // console.log("stard share cards...");
     var players_cards = [],
         cards_to_each = Math.floor(this.cards.length/player_count);
     for (var i=0; player_count > i; i++) {
@@ -76,9 +69,8 @@ Game.prototype.on_update = function() {};
 Game.prototype.check_win = function() {
     if (this.players.length == 1) {
         this.game_winner = this.players[0];
-        // WIN
         return {"result": "win",
-                    "winner": this.players[0]};
+                "winner": this.players[0]};
     }
 };
 Game.prototype.check_player = function(player) {
@@ -110,7 +102,6 @@ Game.prototype.make_step = function(old_cache, on_dispute) {
         }
         check_win = this.check_win(); if (check_win) { return check_win; };
     }
-    // console.log("current cache "+cards_cache)
     for (var i=0; i < this.players.length; i++) {
         var player_card = this.players[i].deck.get_card();
         this.on_update();
